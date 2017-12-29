@@ -115,6 +115,7 @@ function ConvertTo-URLEncodedString
     Write-Verbose "Leaving ConvertTo-UrlEncodedString"
     return $Encode
 }
+
 function ConvertFrom-URLEncodedString
 {
     <#
@@ -145,6 +146,7 @@ function ConvertFrom-URLEncodedString
     Write-Verbose "Leaving ConvertFrom-URLEncodedString" 
     return $Decode
 }
+
 function New-MessageSignature
 {
     <#
@@ -230,6 +232,34 @@ function New-MessageSignature
 
 function Test-MessageSignature
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .PARAMETER message
+    Parameter description
+    
+    .PARAMETER signature
+    Parameter description
+    
+    .PARAMETER algorithm
+    Parameter description
+    
+    .PARAMETER secret
+    Parameter description
+    
+    .PARAMETER thumbprint
+    Parameter description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     Param(
         [parameter(Position=0)][string]$message,
         [parameter(Position=1)][string]$signature,
@@ -276,8 +306,6 @@ function Test-MessageSignature
 
             $verified = $certificate.PublicKey.Key.VerifyData($dataBytes,$algo,$signatureBytes)
             return $verified
-            #$sigBytes = $certificate.PrivateKey.SignData($dataBytes,$algo)
-            #$signature = [convert]::ToBase64String($sigBytes)
         }
         default {Write-Error "Algorithm: $algorithm not implemented"; break;}
     }
@@ -286,6 +314,25 @@ function Test-MessageSignature
 
 function New-JwtHeader
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .PARAMETER algorithm
+    Parameter description
+    
+    .PARAMETER thumbprint
+    Parameter description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     param(
         [parameter()][validateset("HS256","CERT")]$algorithm,
         [parameter(ParameterSetName="CERT")]$thumbprint
@@ -323,6 +370,19 @@ function New-JwtHeader
 
 function New-JwtPayload
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     $payloadTemplate = @{
         "iss"= "00000000-0000-0000-0000-000000000000"
         "sub"= "1234567890";
@@ -340,6 +400,31 @@ function New-JwtPayload
 
 function New-Jwt
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .PARAMETER header
+    Parameter description
+    
+    .PARAMETER payload
+    Parameter description
+    
+    .PARAMETER secret
+    Parameter description
+    
+    .PARAMETER EncodeSignature
+    Parameter description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     param(
         [parameter()]$header,
         [parameter()]$payload,
@@ -372,6 +457,28 @@ function New-Jwt
 
 function Test-Jwt
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .PARAMETER token
+    Parameter description
+    
+    .PARAMETER secret
+    Parameter description
+    
+    .PARAMETER EncodedSignature
+    Parameter description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     param(
         [parameter()]$token,
         [parameter()]$secret,
@@ -448,6 +555,22 @@ function Test-Jwt
 
 function Read-Claim
 {
+    <#
+    .SYNOPSIS
+    Short description
+    
+    .DESCRIPTION
+    Long description
+    
+    .PARAMETER claim
+    Parameter description
+    
+    .EXAMPLE
+    An example
+    
+    .NOTES
+    General notes
+    #>
     param(
         [parameter()]$claim
     )
