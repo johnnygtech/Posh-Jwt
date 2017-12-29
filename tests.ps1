@@ -1,5 +1,12 @@
 . .\functions.ps1
 
+<#
+if you need a certificate to test with use
+. .\selfsignedcert.ps1
+$cert= New-SelfsignedCertificateEx -Subject "CN=JWT TEST SIGNING CERT" -EKU "Code Signing" -KeySpec "Signature" -KeyUsage "DigitalSignature" -FriendlyName "JWT TEST SIGNING CERT" -NotAfter $([datetime]::now.AddYears(5))
+$cert.Thumbprint
+#>
+
 <#test claim#>
 $certThumbprint = "21E76A67FC52C66384CCB5C91B301FF42948E7CA"
 $secret = "secreta"
