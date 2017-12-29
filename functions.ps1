@@ -349,11 +349,10 @@ function New-JwtHeader
             }
             #TODO: if Cert, specify thumprint
             ##The idea here is to identify the certificate thumbprint used for signing
-            ##Should it be Issuer?  or its own thing? thumprint/tpr?  hmmm
+            ##Should it be Issuer?  or its own thing? thumprint/tpr?  hmmm, i vote tpr...
             $headerTemplate = @{
                 "alg"="CERT";
                 "typ"="JWT";
-                "iss"=$thumbprint;
                 "tpr"=$thumbprint;
             }
         }
