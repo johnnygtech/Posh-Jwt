@@ -284,47 +284,6 @@ function Test-MessageSignature
     return $($newSig -eq $signature)
 }
 
-<#
-function Test-MessageSignature
-{
-    Param(
-        [parameter()]$signedmessage,
-        [parameter()]$signature,
-        [parameter()]$secret,
-        [parameter()][switch]$base64
-    );
-    if($base64)
-    {
-        $signedMessageSplit = $(ConvertFrom-Base64 $signedmessage).split(".")
-    }
-    else
-    {
-        $signedmessageSplit = $signedmessage.split(".")    
-    }
-    $count = $signedMessageSplit.Count
-    if($count -ne 2)
-    {
-        Write-Warning "Invalid JWT, wrong number of components"
-        return $false
-    }
-    $decodedMessagedAlg = $(ConvertFrom-Json $signedMessageSplit[0]).alg
-    switch($decodedMessagedAlg)
-    {
-        "HS256"
-        {
-            $newSig = Sign-Message -message $($signedmessage -join ".") -algorithm HS256 -secret $secret
-            if($newSig -eq $signedMessage[2])
-            {
-                return $true
-            }
-        }
-        default {Write-Error "Algorithm not implemented: $algorith`r`nTry HS256"}
-        
-    }
-    return $false
-}
-#>
-
 function New-JwtHeader
 {
     param(
