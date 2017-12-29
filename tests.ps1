@@ -30,6 +30,19 @@ Test-MessageSignature -message $message -algorithm CERT -thumbprint $certThumbpr
 $newSig = New-MessageSignature -message $message -algorithm HS256 -secret $secret
 Test-MessageSignature -message $message -signature $newSig -algorithm HS256 -secret $secret
 
+$badPayload = New-JwtPayload
+$badPayload.exp = $(Get-Date).AddDays(-2)
+$expiredPayload = $badPayload
+
+$expiredToken = New-Jwt -header $header -payload $expiredPayload -secret secret
+$expiredPayload
+Test-Jwt -token $expiredToken -secret secret -Verbose
+
+$earlyPayload = New-JwtPayload
+$earlyPayload.nbf = $(Get-Date).AddHours(1)
+$earlyToken = New-Jwt -header $header -payload $earlyPayload -secret secret
+$earlyPayload
+Test-Jwt -token $earlyToken -secret secret
 
 <#Debugging issue with signature data loss.... basically, don't encode it:
 https://haacked.com/archive/2012/01/30/hazards-of-converting-binary-data-to-a-string.aspx/
