@@ -494,7 +494,12 @@ function Test-Jwt
 
     #next decode relavent items
     $header = ConvertFrom-Base64 $encodedheader
+    $headerObj = $(ConvertFrom-Json $header)
     $payload = ConvertFrom-Base64 $encodedpayload
+    $payloadObj = $(ConvertFrom-Json $payload)
+
+    Write-Verbose $headerObj
+    Write-Verbose $payloadObj
 
     if($EncodedSignature)
     {
@@ -507,7 +512,7 @@ function Test-Jwt
 
     #reassemble the header and payload
     $dataToTest = "$encodedHeader.$encodedPayload"
-    $headerObj = $(ConvertFrom-Json $header)
+    Write-Verbose $dataToTest
     #generate new signature
     switch($headerObj.alg)
     {
@@ -527,7 +532,8 @@ function Test-Jwt
         Write-Error "Invalid Signature"
     }
     #Now verify age and validity options
-    $nbf = $payload.nbf
+    $nbf = $payloadObj.nbf
+    Write-Verbose "nbf: $nbf"
     if($nbf)
     {
         if((Get-Date) -lt $nbf)
@@ -537,7 +543,8 @@ function Test-Jwt
         }
     }
 
-    $exp = $payload.exp
+    $exp = $payloadObj.exp
+    Write-Verbose "exp: $exp"
     if($exp)
     {
         if((Get-Date) -gt $exp)
@@ -546,7 +553,7 @@ function Test-Jwt
             $expired = $true
         }
     }
-    if(!$expired -and !$notYetValid -and $signatureisValid)
+    if(!$($expired -or $notYetValid) -and $signatureisValid)
     {
         return $true
     }
