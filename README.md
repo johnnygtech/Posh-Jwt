@@ -1,2 +1,2 @@
 # Posh-Jwt
-Powershell creator and parser for JSON Web Tokens
+Powershell creator and validator for JSON Web Tokens
