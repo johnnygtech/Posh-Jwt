@@ -388,7 +388,6 @@ function New-JwtPayload
         "sub"= "1234567890";
         "name"= "John Doe";
         "admin"= $true;
-        "moreRandomData"="here is where I put a message"
         "exp"= $($(Get-Date).AddDays(1)).ToString()
         "nbf" = $($(Get-Date)).ToString()
         "iat" = $($(Get-Date)).ToString()
